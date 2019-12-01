@@ -38,9 +38,7 @@ class EPD:
         GPIO.setup(Pins.RESET, GPIO.OUT, initial=GPIO.HIGH)
 
         # reset
-        GPIO.output(Pins.RESET, GPIO.LOW)
-        sleep(0.1)
-        GPIO.output(Pins.RESET, GPIO.HIGH)
+        self._reset()
 
         self.width            = None
         self.height           = None
@@ -59,6 +57,11 @@ class EPD:
     def __del__(self):
         if not self.early_exit:
             GPIO.cleanup()
+
+    def _reset(self):
+        GPIO.output(Pins.RESET, GPIO.LOW)
+        sleep(0.1)
+        GPIO.output(Pins.RESET, GPIO.HIGH)
 
     def load_img_area(self, buf, rotate_mode=constants.Rotate.NONE, xy=None, dims=None):
         '''
